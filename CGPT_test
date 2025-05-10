@@ -1,0 +1,34 @@
+---
+- name: Generate Cisco Config File
+  hosts: localhost
+  gather_facts: no
+
+  vars_prompt:
+    - name: "hostname"
+      prompt: "Enter the hostname"
+      private: no
+
+    - name: "interface_name"
+      prompt: "Enter the interface name (e.g., GigabitEthernet0/1)"
+      private: no
+
+    - name: "ip_address"
+      prompt: "Enter the IP address"
+      private: no
+
+    - name: "subnet_mask"
+      prompt: "Enter the subnet mask"
+      private: no
+
+  tasks:
+    - name: Create Cisco config file
+      copy:
+        dest: "./cisco_config.txt"
+        content: |
+          hostname {{ hostname }}
+          !
+          interface {{ interface_name }}
+           ip address {{ ip_address }} {{ subnet_mask }}
+           no shutdown
+          !
+          end
